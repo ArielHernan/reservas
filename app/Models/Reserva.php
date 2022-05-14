@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,11 +17,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id_usuario
  * @property int $estado
  * @property Carbon $fecha_hora_inicio
- * @property int $fecha_hora_fin
+ * @property Carbon $fecha_hora_fin
  * @property int $numero_personas
  * 
  * @property User $user
- * @property ReservasMesa $reservas_mesa
+ * @property Collection|Mesa[] $mesas
  *
  * @package App\Models
  */
@@ -33,12 +34,12 @@ class Reserva extends Model
 	protected $casts = [
 		'id_usuario' => 'int',
 		'estado' => 'int',
-		'fecha_hora_fin' => 'int',
 		'numero_personas' => 'int'
 	];
 
 	protected $dates = [
-		'fecha_hora_inicio'
+		'fecha_hora_inicio',
+		'fecha_hora_fin'
 	];
 
 	protected $fillable = [
@@ -54,8 +55,9 @@ class Reserva extends Model
 		return $this->belongsTo(User::class, 'id_usuario');
 	}
 
-	public function reservas_mesa()
+	public function mesas()
 	{
-		return $this->belongsTo(ReservasMesa::class, 'id_reserva', 'numero_reserva');
+		return $this->belongsToMany(Mesa::class, 'reservas_mesas', 'numero_reserva', 'numero_mesa')
+					->withPivot('asistentes');
 	}
 }

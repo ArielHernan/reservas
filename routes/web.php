@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\reservaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,5 +20,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+
+//RESERVA
+Route::get('/nuevaReserva/{id?}',[reservaController::class,'crear'])->middleware('auth'); 
+Route::post('/reservaUpdate',[reservaController::class,'update'])->middleware('auth')->name('reservaUpdate'); 
+Route::get('/adminVerReservas/{filtro?}',[reservaController::class,'mostrar'])->middleware('auth'); 
+
+
 
 require __DIR__.'/auth.php';
