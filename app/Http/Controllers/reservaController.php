@@ -216,12 +216,6 @@ class reservaController extends Controller
     }
 
 
-
-
-
-
-
-
 //------------------------------RESERVAMODIFICADA--------------------------------------------------------------------------------------------
 
 public function reservaModificada(){
